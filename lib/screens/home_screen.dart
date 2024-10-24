@@ -1,4 +1,3 @@
-import 'package:fitness_tracker/controllers/home_controller.dart';
 import 'package:fitness_tracker/controllers/progress_tracker_controller.dart';
 import 'package:fitness_tracker/widgets/workout_chart.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  final HomeController controller = Get.put(HomeController());
   final ProgressTrackerController progressController = Get.put(ProgressTrackerController());
 
   @override
@@ -35,6 +33,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: Colors.blueAccent,
               ),
             ),
             const SizedBox(height: 20.0),
@@ -42,6 +41,10 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -51,14 +54,25 @@ class HomeScreen extends StatelessWidget {
                             'This Week',
                             style: TextStyle(
                               fontSize: 20,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
+                          const SizedBox(height: 10.0),
                           Obx(() => Text(
-                              'Total Workouts: ${controller.totalWorkouts.value}',
+                              'Total Workouts: ${progressController.totalWorkouts}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
+                          const SizedBox(height: 5.0),
                           Obx(() => Text(
-                              'Total Duration: ${controller.totalDuration.value} hours',
+                              'Total Duration: ${progressController.totalDuration} minutes',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[700],
+                              ),
                             ),
                           ),
                         ],
@@ -77,6 +91,12 @@ class HomeScreen extends StatelessWidget {
                     // Navigate to workout log screen
                     Get.toNamed('/log');
                   },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   child: const Text('Log Workout'),
                 ),
                 ElevatedButton(
@@ -84,14 +104,29 @@ class HomeScreen extends StatelessWidget {
                     // Navigate to progress tracker screen
                     Get.toNamed('/progress');
                   },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   child: const Text('View Progress'),
                 ),
               ],
             ),
             const SizedBox(height: 20.0),
             Expanded(
-              child: WorkoutChart(
-                workouts: progressController.workouts
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: WorkoutChart(
+                    workouts: progressController.workouts
+                  ),
+                ),
               ),
             ),
           ],

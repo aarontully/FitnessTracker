@@ -31,4 +31,8 @@ class ProgressTrackerController extends GetxController {
 
     workouts.value = dummyWorkouts;
   }
+
+  int get totalWorkouts => workouts.length;
+
+  int get totalDuration => workouts.fold(0, (sum, workout) => sum + workout.duration);
 }

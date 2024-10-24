@@ -21,7 +21,7 @@ class WorkoutChart extends StatefulWidget {
   ];
 
   final Color barBackgroundColor = Colors.white.darken().withOpacity(0.3);
-  final Color barColor = AppColors.contentColorWhite;
+  final Color barColor = AppColors.contentColorGreen;
   final Color touchedBarColor = AppColors.contentColorGreen;
 
   @override
@@ -49,6 +49,8 @@ class _WorkoutChartState extends State<WorkoutChart> {
                     child: BarChart(
                       BarChartData(
                         alignment: BarChartAlignment.spaceAround,
+                        gridData: const FlGridData(show: false),
+                        titlesData: FlTitlesData(rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
                         barGroups: widget.workouts.map((workout) {
                           final int index = widget.workouts.indexOf(workout);
                           return BarChartGroupData(
@@ -56,10 +58,16 @@ class _WorkoutChartState extends State<WorkoutChart> {
                             barRods: [
                               BarChartRodData(
                                 toY: workout.duration.toDouble(),
-                                
+                                color: widget.barColor,
+                                width: 22,
+                                backDrawRodData: BackgroundBarChartRodData(
+                                  show: true,
+                                  toY: 20,
+                                  color: widget.barBackgroundColor,
+                                ),
                               ),
                             ],
-                            showingTooltipIndicators: [0],
+                            showingTooltipIndicators: [],
                           );
                         }).toList(),
                       )
@@ -71,6 +79,6 @@ class _WorkoutChartState extends State<WorkoutChart> {
           )
         ],
       ),
-    )
+    );
   }
 }
